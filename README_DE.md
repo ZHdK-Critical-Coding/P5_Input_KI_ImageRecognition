@@ -12,14 +12,22 @@ Ein Ausgangspunkt, um auf Objekte vor einer Kamera zu reagieren.
 Voraussetzungen: eine Webcam (oder ein MJPEG-Stream) und eine
 Internetverbindung – das Modell wird beim ersten Start heruntergeladen.
 
-Optional, MJPEG-Stream statt Webcam: `videoSrc` auf die Stream-URL setzen
-und `proxyUrl` auf einen Proxy, der den Stream mit CORS-Headern
-weiterleitet (nicht enthalten; er wird als `<proxyUrl><encoded videoSrc>`
-aufgerufen). Die Quelle wird mit der Konstante `useWebcam` umgeschaltet:
-`true` (Standard) verwendet die Webcam, `false` den Stream.
+Optional, MJPEG-Stream statt Webcam: `videoSrc` auf die Stream-URL und
+`useWebcam = false` setzen (`true`, der Standard, verwendet die Webcam).
+Der Stream braucht einen Proxy (siehe Server).
 
 Bibliotheken (in `libraries/`): p5.js 1.10.0, p5.sound 1.0.1 (eingebunden,
 nicht verwendet), ml5.js 1.2.2.
+
+## Server
+
+Nur für den MJPEG-Stream nötig (`useWebcam = false`): `stream-proxy` aus
+[Servers_RaspberriPi](https://github.com/ZHdK-Critical-Coding/Servers_RaspberriPi)
+(HTTP, Port 5000), auf einem Raspberry Pi im selben Netzwerk wie dein
+Computer. Zuerst im Ordner mit `bash run.sh` (oder `python server.py`)
+starten. Er holt den Kamerastream und reicht ihn mit CORS-Headern weiter,
+damit der Classifier seine Pixel lesen kann. In `sketch.js` `proxyUrl` auf
+`http://<pi-ip>:5000/stream?url=` setzen.
 
 ## Ausführen
 
