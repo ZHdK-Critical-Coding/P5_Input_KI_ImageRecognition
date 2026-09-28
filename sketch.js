@@ -10,7 +10,8 @@ const videoSrc = 'http://153.169.104.107:8080/?action=stream';
 // Optional proxy URL to bypass CORS issues
 const proxyUrl = 'http://192.168.138.96:5000/stream?url='; 
 
-const useWebcam = false
+// true: use the webcam, false: use the MJPEG stream (videoSrc via proxyUrl)
+const useWebcam = true
 
 // Flags and variables
 let videoReady = false; // Indicates whether the video is ready to display
@@ -37,18 +38,19 @@ function setup() {
   const proxy = `${proxyUrl}${encodeURIComponent(videoSrc)}`;
   console.log(proxy);
 
-  // Create the HTML <img> element that streams MJPEG video
   if (useWebcam) {
+    // Use the webcam
+    imageStream = createCapture(VIDEO);
+    imageStream.size(640, 480);
+    imageStream.hide();
+    videoReady = true;    // Mark as ready when loaded
+  } else {
+    // Create the HTML <img> element that streams MJPEG video
     imageStream = createImg(proxy, '', 'anonymous', (e) => {
         // Callback when image element is loaded
         imageStream.hide(); // Hide the HTML element; we draw it on canvas manually
         videoReady = true;  // Mark video as ready
       });    
-  } else {
-    imageStream = createCapture(VIDEO);
-    imageStream.size(640, 480);
-    imageStream.hide();
-    videoReady = true;    // Mark as ready when loaded
   }
 
 
@@ -81,6 +83,7 @@ function draw() {
 
   // Display classification results as text
   // Maps each label to a string with optional confidence
+  fill(0); // Black text on the white background
   text(
     label.map(l => `${l.label}${l.confidence ? ` ${round(l.confidence,1)},` : ''}`).join('\n'), 
     width / 2 + 10, 20
@@ -91,7 +94,7 @@ function draw() {
 // Helper function: display waiting message
 // ============================================
 function wait() {
-  fill(255);
+  fill(0); // Black text on the white background
   textSize(10);
   text(`⏳ ${videoSrc}`, 10, 20);
 }

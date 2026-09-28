@@ -12,19 +12,21 @@ for reacting to objects in front of a camera.
 Requirements: a webcam (or an MJPEG stream) and an internet connection –
 the model is downloaded on first start.
 
+Optional, MJPEG stream instead of webcam: set `videoSrc` to the stream URL
+and `proxyUrl` to a proxy that forwards the stream with CORS headers (not
+included; it is called as `<proxyUrl><encoded videoSrc>`). The source is
+switched with the `useWebcam` constant: `true` (default) uses the webcam,
+`false` uses the stream.
+
+Libraries (in `libraries/`): p5.js 1.10.0, p5.sound 1.0.1 (included, not
+used), ml5.js 1.2.2.
+
+## How to Run
+
 1. Open the folder in Visual Studio Code and start Live Server (click
    **Go Live** in the status bar).
 2. Allow webcam access. The webcam image appears top left, the
    classification results on the right.
-
-Optional, MJPEG stream instead of webcam: set `videoSrc` to the stream URL
-and `proxyUrl` to a proxy that forwards the stream with CORS headers (not
-included; it is called as `<proxyUrl><encoded videoSrc>`). The source is
-switched with the `useWebcam` constant. Note that the logic is inverted:
-`false` (default) uses the webcam, `true` uses the stream.
-
-Libraries (in `libraries/`): p5.js 1.10.0, p5.sound 1.0.1 (included, not
-used), ml5.js 1.2.2.
 
 ## Coding Help
 
